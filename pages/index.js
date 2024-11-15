@@ -1,8 +1,8 @@
 // MODULES //
 
 // COMPONENTS //
-import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import SideHeader from "@/components/sideHeader";
 import MetaTags from "@/components/MetaTags";
 
 // SECTIONS //
@@ -27,15 +27,13 @@ export default function HomePage() {
 
 			{/* Header */}
 			<Header />
+			<SideHeader />
 
 			{/* Page Content starts here */}
-			<main className={`${styles.HomePage} bg_primary`}>
-				<h2>This is ting base next.js template</h2>
+			<main className={`${styles.HomePage}`}>
+				<h2>Trupath Dashboard</h2>
 			</main>
 			{/* Page Content ends here */}
-
-			{/* Footer */}
-			<Footer />
 		</div>
 	);
 }
