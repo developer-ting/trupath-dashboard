@@ -128,3 +128,11 @@ section {
 		object-fit: cover !important;
 	}
 }
+
+::placeholder {
+	color: #411a0f;
+}
+  
+::-ms-input-placeholder {
+	color: #411a0f;
+}

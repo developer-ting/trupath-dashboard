@@ -2,9 +2,49 @@
 
 .CreatBlogPage {
 	width: 80%;
+    padding: 15px;
 	margin-top: 60px;
 	margin-left: calc(100% / 5);
 	min-height: calc(100vh - 60px);
 	background-color: #fff7e9;
-	@extend %f_r_aj_center;
+    .ContactForm{
+        .fiels_section{
+            margin-bottom: 20px;
+            .fiels{
+                width: 100%;
+                padding-bottom: 10px;
+                label{
+                    width: 100%;
+                }
+                input{
+                    width: 100%;
+                    display: inherit;
+                    box-shadow: none;
+                    border: 0;
+                    border: 1px solid #411a0f;
+                    border-radius: 5px;
+                    padding: 10px 5px;
+                }
+                textarea{
+                    width: 100%;
+                    display: inherit;
+                    box-shadow: none;
+                    border: 0;
+                    border: 1px solid #411a0f;
+                    border-radius: 5px;
+                    padding: 10px 5px;
+                }
+            }
+        }
+        .submit_btn{
+            color: #fff7e9;
+            cursor: pointer;
+            font-size: 16px;
+            border: 2px solid transparent;
+            padding: 10px 35px;
+            border-radius: 5px;
+            transition: all 0.2s ease-in;
+            background-color: #411a0f;
+        }
+    }
 }

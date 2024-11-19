@@ -23,6 +23,8 @@ import Delete from "@/../public/img/delete.png";
 
 // DATA //
 import { getAllBlogs } from "@/services/BlogService";
+import { deleteBlog } from "@/services/BlogService";
+import { title } from "process";
 
 /** Contact Page */
 export default function Blog() {
@@ -40,7 +42,7 @@ export default function Blog() {
 		fetchBlogs();
 	}, []);
 
-	console.log(blogs, "blogs");
+	console.log(blogs);
 
 	return (
 		<div>
@@ -69,10 +71,10 @@ export default function Blog() {
 						<h4>Description</h4>
 					</div>
 					<div className={`${styles.field}`}>
-						<h4>date</h4>
+						<h4>Date</h4>
 					</div>
 					<div className={`${styles.field}`}>
-						<h4>slug</h4>
+						<h4>Slug</h4>
 					</div>
 					<div className={`${styles.field}`}>
 						<h4>Action</h4>
@@ -82,7 +84,7 @@ export default function Blog() {
 				<>
 					{blogs.blog?.map((item, ind) => {
 						return (
-							<div className={`${styles.show_data}`} key={item._id}>
+							<div className={`${styles.show_data}`} key={ind}>
 								<div className={`${styles.field}`}>
 									<p>{item.title}</p>
 								</div>
@@ -105,7 +107,8 @@ export default function Blog() {
 										</div>
 										<div
 											className={`${styles.action_img}`}
-											onClick={() => console.log(`Editing ${item.title}`)}
+											// onClick={() => console.log(`Editing ${item.title}`)}
+											onClick={() => deleteBlog({ title: item.title })}
 										>
 											<img src={Delete.src} alt="Edit" />
 										</div>

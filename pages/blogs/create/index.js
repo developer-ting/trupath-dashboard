@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable require-jsdoc */
 // MODULES //
 import { useEffect, useState, useRef } from "react";
@@ -11,7 +12,6 @@ import MetaTags from "@/components/MetaTags";
 // SECTIONS //
 
 // PLUGINS //
-import { useForm } from "react-hook-form";
 
 // STYLES //
 import styles from "@/styles/pages/blogCreate.module.scss";
@@ -19,37 +19,61 @@ import styles from "@/styles/pages/blogCreate.module.scss";
 // UTILS //
 
 // IMAGES //
-import Edit from "@/../public/img/edit.png";
-import Delete from "@/../public/img/delete.png";
 
 // DATA //
 import { createBlog } from "@/services/BlogService";
-import { title } from "process";
+import "ckeditor5/ckeditor5.css";
+import "ckeditor5-premium-features/ckeditor5-premium-features.css";
 
 /** Contact Page */
 export default function Blog() {
-	const router = useRouter();
-	/** */
-	// const handleSubmit = async (e) => {
-	// 	e.preventDefault();
-	// 	const formdata = e.target;
-	// 	const name = formdata.title.value;
-	// 	await createBlog({ title: name });
-	// 	router.push("/blogs/blog");
-	// };
+	const editorRef = useRef();
+	const [editorLoaded, setEditorLoaded] = useState(false);
+	const { CKEditor, ClassicEditor } = editorRef.current || {};
+	useEffect(() => {
+		// Dynamically load CKEditor and its build
+		editorRef.current = {
+			CKEditor: require("@ckeditor/ckeditor5-react").CKEditor,
+			ClassicEditor: require("@ckeditor/ckeditor5-build-classic"),
+		};
+		setEditorLoaded(true); // Indicate that the editor is loaded
+	}, []);
 
+	const router = useRouter();
+
+	const [content, setContent] = useState("");
+
+	const handleEditorChange = (event, editor) => {
+		const data = editor.getData();
+		setContent(data);
+	};
+
+	// Handle form submission
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		const formdata = e.target;
-		const name = formdata.firstname.value;
-		await createBlog({ name: name });
+		const formdata = new FormData();
+		formdata.append("title", e.target.title.value);
+		formdata.append("description", e.target.description.value);
+		formdata.append("slug", e.target.slug.value);
+		formdata.append("date", e.target.date.value);
+		formdata.append("readTime", e.target.readTime.value);
+		// Append thumbnail
+		if (e.target.thumbnail.files[0]) {
+			formdata.append("thumbnail", e.target.thumbnail.files[0]);
+		}
+		// Append CKEditor content
+		formdata.append("content", content);
+		// Send formdata to API
+		await createBlog({ formdata });
 		router.push("/blogs/blog");
 	};
+
+	console.log(content, "data");
 
 	return (
 		<div>
 			{/* Metatags */}
-			<MetaTags Title={"Contact"} Desc={""} OgImg={""} Url={"/contact"} />
+			<MetaTags Title={"blog create"} Desc={""} OgImg={""} Url={"/contact"} />
 
 			{/* Header */}
 			<Header />
@@ -61,36 +85,75 @@ export default function Blog() {
 					<div>
 						<h2>Submit a New Blog</h2>
 						<form onSubmit={handleSubmit}>
-							<div>
-								<label>
-									Title:
+							<div className={`${styles.fiels_section}`}>
+								<div className={`${styles.fiels}`}>
+									<label>Title</label>
 									<input
-										name="firstname"
-										id="firstname"
+										name="title"
+										id="title"
 										type="text"
-										placeholder="First"
+										placeholder="Title"
+										required
 									/>
-								</label>
-							</div>
-							<div>
-								<label>
-									Thumbnail:
+								</div>
+								<div className={`${styles.fiels}`}>
+									<label>Description</label>
+									<input
+										name="description"
+										id="description"
+										type="text"
+										placeholder="Description"
+										required
+									/>
+								</div>
+								<div className={`${styles.fiels}`}>
+									<label>Thumbnail:</label>
 									<input
 										type="file"
 										name="thumbnail"
 										id="thumbnail"
 										accept="image/*"
-										// required
+										required
 									/>
-								</label>
+								</div>
+								<div className={`${styles.fiels}`}>
+									<label>Content</label>
+									{editorLoaded ? (
+										<CKEditor
+											editor={ClassicEditor}
+											data={content}
+											onInit={(editor) => {
+												console.log("Editor is ready to use!", editor);
+											}}
+											onChange={handleEditorChange}
+										/>
+									) : (
+										<div>Editor loading</div>
+									)}
+								</div>
+
+								<div className={`${styles.fiels}`}>
+									<label>Slug</label>
+									<input name="slug" id="slug" type="text" placeholder="slug" required />
+								</div>
+								<div className={`${styles.fiels}`}>
+									<label>Date</label>
+									<input name="date" id="date" type="text" placeholder="Date" required />
+								</div>
+								<div className={`${styles.fiels}`}>
+									<label>Read Time</label>
+									<input
+										name="readTime"
+										id="readTime"
+										type="text"
+										placeholder="Read Time"
+										required
+									/>
+								</div>
 							</div>
-							{/* <div>
-								<label>
-									Description:
-									<textarea type="text" name="desc" id="desc" placeholder="desc" />
-								</label>
-							</div> */}
-							<button type="submit">Submit</button>
+							<button type="submit" className={`${styles.submit_btn}`}>
+								Submit
+							</button>
 						</form>
 					</div>
 				</div>

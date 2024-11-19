@@ -1,18 +1,8 @@
 import { ServerHeaders } from "@/utils/RequestHeaders";
 
-/** Fetch Blog Data */
-// export const getAllBlogs = async () => {
-// 	const req = await fetch(
-// 		`${process.env.STRAPI_DO_BASE_URL}/api/blogs?populate=*`,
-// 		ServerHeaders
-// 	);
-// 	const res = await req.json();
-// 	return res;
-// };
-
-/** get All Blog */
+/** Get All Blog */
 export async function getAllBlogs() {
-	const res = await fetch("http://localhost:8080/api/blogs", {
+	const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/blogs`, {
 		headers: {
 			Authorization: `Bearer ${process.env.TOKEN}`,
 		},
@@ -22,10 +12,8 @@ export async function getAllBlogs() {
 }
 
 /** Post One Blog */
-export async function createBlog({ token, name }) {
-	const formdata = new FormData();
-	formdata.append("title", name);
-	const res = await fetch("http://localhost:8080/api/blogs", {
+export async function createBlog({ token, formdata }) {
+	const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/blogs`, {
 		method: "POST",
 		// headers: {
 		// 	Authorization: `Bearer ${process.env.TOKEN}`,
@@ -36,25 +24,19 @@ export async function createBlog({ token, name }) {
 	return data;
 }
 
-// export async function getAllBlogs() {
-// 	console.log("Fetching blogs...");
-
-// 	try {
-// 		const res = await fetch("http://localhost:8080/api/blogs");
-// 		console.log("Response received:", res);
-
-// 		if (!res.ok) {
-// 			throw new Error(`Failed to fetch blogs: ${res.statusText}`);
-// 		}
-
-// 		const data = await res.json();
-// 		console.log("Data fetched:", data);
-// 		return data;
-// 	} catch (error) {
-// 		console.error("Error in getAllBlogs:", error);
-// 		return [];
-// 	}
-// }
+/** Delete One Blog */
+export async function deleteBlog({ title }) {
+	const res = await fetch(
+		`${process.env.NEXT_PUBLIC_API_URL}/api/blogs/${title}`,
+		{
+			method: "DELETE",
+			// headers: { Authorization: `Bearer ${token}` },
+		}
+	);
+	const data = await res.json();
+	window.location.reload();
+	return data;
+}
 
 /** Fetch Blogs Inside Data */
 export const getBlogBySlug = async (slug) => {
