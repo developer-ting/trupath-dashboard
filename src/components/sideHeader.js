@@ -56,7 +56,7 @@ export default function SideHeader() {
 								</a>
 							</li>
 							<li>
-								<a href="/blogs/blog">
+								<a href="/blogs">
 									<div className={`${styles.page_img}`}>
 										<img src={Blog.src} alt="logo" />
 									</div>
@@ -64,7 +64,7 @@ export default function SideHeader() {
 								</a>
 							</li>
 							<li>
-								<a href="/blogs/blog">
+								<a href="/blogs">
 									<div className={`${styles.page_img}`}>
 										<img src={Phone.src} alt="logo" />
 									</div>

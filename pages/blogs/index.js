@@ -99,12 +99,13 @@ export default function Blog() {
 								</div>
 								<div className={`${styles.field}`}>
 									<div className={`${styles.action}`}>
-										<div
+										<a
 											className={`${styles.action_img}`}
 											onClick={() => console.log(`Editing ${item.title}`)}
+											href={`/blogs/${item._id}`}
 										>
 											<img src={Edit.src} alt="Edit" />
-										</div>
+										</a>
 										<div
 											className={`${styles.action_img}`}
 											// onClick={() => console.log(`Editing ${item.title}`)}
@@ -123,3 +124,18 @@ export default function Blog() {
 		</div>
 	);
 }
+
+/** Blogs data get*/
+// export const getStaticProps = async () => {
+// 	/**Fetch Api Case-StudiesBlog Page */
+// 	const allPromiseResponse = await Promise.all([
+// 		fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/blogs`),
+// 	]);
+
+// 	return {
+// 		props: {
+// 			blogs: await allPromiseResponse[0].json(),
+// 		},
+// 		revalidate: 30,
+// 	};
+// };

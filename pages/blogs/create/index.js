@@ -65,7 +65,7 @@ export default function Blog() {
 		formdata.append("content", content);
 		// Send formdata to API
 		await createBlog({ formdata });
-		router.push("/blogs/blog");
+		router.push("/blogs");
 	};
 
 	console.log(content, "data");
@@ -83,7 +83,6 @@ export default function Blog() {
 			<main className={styles.CreatBlogPage}>
 				<div className={`${styles.ContactForm}`}>
 					<div>
-						<h2>Submit a New Blog</h2>
 						<form onSubmit={handleSubmit}>
 							<div className={`${styles.fiels_section}`}>
 								<div className={`${styles.fiels}`}>

@@ -1,3 +1,4 @@
+/* eslint-disable require-jsdoc */
 import { ServerHeaders } from "@/utils/RequestHeaders";
 
 /** Get All Blog */
@@ -7,6 +8,20 @@ export async function getAllBlogs() {
 			Authorization: `Bearer ${process.env.TOKEN}`,
 		},
 	});
+	const data = await res.json();
+	return data;
+}
+
+/** Get ID Blog */
+export async function getIdBlogs(_id) {
+	const res = await fetch(
+		`${process.env.NEXT_PUBLIC_API_URL}/api/blogById/${_id}`,
+		{
+			headers: {
+				Authorization: `Bearer ${process.env.TOKEN}`,
+			},
+		}
+	);
 	const data = await res.json();
 	return data;
 }
@@ -37,6 +52,38 @@ export async function deleteBlog({ title }) {
 	window.location.reload();
 	return data;
 }
+
+// updateOneBlogById
+// eslint-disable-next-line require-jsdoc
+export async function updateOneBlogById({ formdata, _id }) {
+	const res = await fetch(
+		`${process.env.NEXT_PUBLIC_API_URL}/api/updateOneBlogById/${_id}`,
+		{
+			method: "PUT",
+			// headers: {
+			// 	"Content-Type": "application/json",
+			// },
+			body: formdata,
+		}
+	);
+	const data = await res.json();
+	return data;
+}
+
+// updateBlog
+// export async function updateBlog({ _id }) {
+// 	const formdata = new FormData();
+// 	const res = await fetch(
+// 		`${process.env.NEXT_PUBLIC_API_URL}/api/blogById/${_id}`,
+// 		{
+// 			method: "PUT",
+// 			// headers: { Authorization: `Bearer ${token}` },
+// 			body: formdata,
+// 		}
+// 	);
+// 	const data = await res.json();
+// 	return data;
+// }
 
 /** Fetch Blogs Inside Data */
 export const getBlogBySlug = async (slug) => {
